@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a3d5e322-eebb-4076-8047-d915943b10e1" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/notebooks/my_dataset_EDA.ipynb" afterDir="false" />
-    </list>
+    <list default="true" id="a3d5e322-eebb-4076-8047-d915943b10e1" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -41,17 +39,17 @@
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "codeWithMe.voiceChat.enabledByDefault": "false",
     "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/Users/eylul/Desktop/PycharmProjects/player_churn_system/notebooks",
+    "last_opened_file_path": "C:/Users/eylul/Desktop/PycharmProjects/player_churn_system/reports",
     "nodejs_package_manager_path": "npm",
     "settings.editor.selected.configurable": "preferences.updates"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\eylul\Desktop\PycharmProjects\player_churn_system\reports" />
       <recent name="C:\Users\eylul\Desktop\PycharmProjects\player_churn_system\notebooks" />
       <recent name="C:\Users\eylul\Desktop\PycharmProjects\player_churn_system\data" />
       <recent name="C:\Users\eylul\Desktop\PycharmProjects\player_churn_system\src" />
-      <recent name="C:\Users\eylul\Desktop\PycharmProjects\player_churn_system\reports" />
     </key>
   </component>
   <component name="RunManager">
