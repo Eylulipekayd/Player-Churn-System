@@ -22,7 +22,13 @@ def player_data(input_path, output_path):
     # find_col fonksiyonuna keyword gider ve içinde geçen sütun bulunur
     id_col = find_col(df_data.columns, ["id"])
     session_col = find_col(df_data.columns, ["session"])
-    level_col = find_col(df_data.columns, ["level"])
+    engagement_col = find_col(df_data.columns, ["engagement"])
+
+    # Engagement" ve Level kelimeleri bazen yan yana gelip EngagementLevel çakışabiliyor. Bu yüzden Level bilgisini ararken Engagement sütununu devre dışı bırakıyor
+    level_search_cols = [c for c in df_data.columns if c != engagement_col]
+    level_col = find_col(level_search_cols, ["level"])
+
+    duration_col = find_col(df_data.columns, ["duration"]) or find_col(df_data.columns, ["avg"])
     purchase_col = find_col(df_data.columns, ["purchase"]) or find_col(df_data.columns, ["buy"])
 
     # Veri setindeki isimleri, projede kullanacağım sütun isimleriyle eşleştiriyor.
@@ -30,13 +36,14 @@ def player_data(input_path, output_path):
     if id_col: columns_mapping[id_col] = "OyuncuID"
     if session_col: columns_mapping[session_col] = "OturumSayisi"
     if level_col: columns_mapping[level_col] = "OyuncuSeviyesi"
+    if duration_col: columns_mapping[duration_col] = "Ortalama_Oturum_Suresi"
     if purchase_col: columns_mapping[purchase_col] = "TotalSatınAlma"
-
+    if engagement_col: columns_mapping[engagement_col] = "OyunaBaglilik"
 
     df_filtered = df_data.rename(columns=columns_mapping)
 
     # Veri setinin sütunlarını gerekli sütunların içindeki isimlere göre seçip ayıklıyor.
-    gerekli_sutunlar = ["OyuncuID", "OturumSayisi", "OyuncuSeviyesi", "TotalSatınAlma"]
+    gerekli_sutunlar = ["OyuncuID", "OturumSayisi", "OyuncuSeviyesi", "TotalSatınAlma", "Ortalama_Oturum_Suresi", "OyunaBaglilik"]
     mevcut_sutunlar = [c for c in gerekli_sutunlar if c in df_filtered.columns]
 
     # Filtrelenmiş veri setinden 10.000 satırı seçer
