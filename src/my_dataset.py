@@ -64,9 +64,9 @@ def oyuncu_profili_uret(n_players=10000):
             current += timedelta(days=1)
 
         # Bugün ile son giriş tarihi arasındaki farkı hesaplar
-        gun_farki_guncel = (bugun - son_giris).days
+        girilmeyen_gun_sayisi = (bugun - son_giris).days
         # 21 gün ve üzeri giriş yapmayan oyuncular churn 1 olur
-        is_churn = 1 if gun_farki_guncel > 21 else 0
+        is_churn = 1 if girilmeyen_gun_sayisi > 21 else 0
 
         # Mevsimsel oyun sürelerini toplar ve genel metrikleri hesaplar
         toplam_saat = sum(mevsimsel_saatler.values())
