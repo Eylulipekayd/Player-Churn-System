@@ -42,12 +42,12 @@ def player_data(input_path, output_path):
 
     df_filtered = df_data.rename(columns=columns_mapping)
 
-    # Veri setinin sütunlarını gerekli sütunların içindeki isimlere göre seçip ayıklıyor.
+    # Veri setinin sütunları gerekli sütunların içindeki isimler gibi  olsun.
     gerekli_sutunlar = ["OyuncuID", "OturumSayisi", "OyuncuSeviyesi", "TotalSatınAlma", "Ortalama_Oturum_Suresi", "OyunaBaglilik"]
-    mevcut_sutunlar = [c for c in gerekli_sutunlar if c in df_filtered.columns]
+
 
     # Filtrelenmiş veri setinden 10.000 satırı seçer
-    df_filtered = df_filtered[mevcut_sutunlar].sample(n=min(10000, len(df_filtered)), random_state=42).reset_index(drop=True)
+    df_filtered = df_filtered[gerekli_sutunlar].sample(n=min(10000, len(df_filtered)), random_state=42).reset_index(drop=True)
     #Filtrelenmiş veri setini kaydeder
     df_filtered.to_csv(output_path, index=False)
 
