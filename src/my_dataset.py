@@ -32,6 +32,7 @@ def oyuncu_profili_uret(n_players=10000):
 
         # Oyuncunun kaydolabileceği tarih aralığı
         baslangic_tarihi = max(en_erken_kayit_tarihi, oyun_acilis_tarihi)
+
         #Oyuncunun potansiyel olarak kaydolabileceği en eski gün ile bugün arasındaki toplam süredir
         kalan_gun_araligi = (bugun - baslangic_tarihi).days
 
@@ -53,12 +54,20 @@ def oyuncu_profili_uret(n_players=10000):
         # Veri setindeki aktif/pasif oyuncu oranını dengelemek için %50 %50 ayarlar.
 
         if np.random.random() < 0.5:
-            aktiflik_esigi = min(180, toplam_gun)
-            gun_farki_son_giris = toplam_gun - np.random.randint(0, aktiflik_esigi + 1)
+            gun_farki_bugunden = np.random.randint(0, min(21, toplam_gun + 1))
+            son_giris = bugun - timedelta(days=gun_farki_bugunden)
         else:
-            gun_farki_son_giris = np.random.randint(0, toplam_gun + 1)
 
-        son_giris = kayit_tarihi + timedelta(days=gun_farki_son_giris)
+            if toplam_gun > 21:
+                gun_farki_bugunden = np.random.randint(22, toplam_gun + 1)
+            else:
+                gun_farki_bugunden = toplam_gun
+
+            son_giris = bugun - timedelta(days=gun_farki_bugunden)
+
+        # girilmeyen gün sayısına göre churn hesabı yapılır 21 ve sonrası churn durumundadır.
+        girilmeyen_gun_sayisi = (bugun - son_giris).days
+        is_churn = 1 if girilmeyen_gun_sayisi > 21 else 0
 
         # öğrenci yaş grubunu bulur.
         is_ogrenci = 12 <= yas <= 22
@@ -77,9 +86,6 @@ def oyuncu_profili_uret(n_players=10000):
             mevsimsel_saatler[mevsim] += max(0, gunluk_saat)
             current += timedelta(days=1)
 
-        #girilmeyen gün sayısına göre churn hesabı yapılır 21 ve sonrası churn durumundadır.
-        girilmeyen_gun_sayisi = (bugun - son_giris).days
-        is_churn = 1 if girilmeyen_gun_sayisi > 21 else 0
 
         #oyuncu seviyesi toplam oyun saatine bağlı olarak mantıklı şekilde hesaplanır.
         toplam_saat = sum(mevsimsel_saatler.values())
