@@ -24,7 +24,8 @@ def player_data(input_path, output_path):
     session_col = find_col(df_data.columns, ["session"])
     engagement_col = find_col(df_data.columns, ["engagement"])
 
-    # Engagement" ve Level kelimeleri bazen yan yana gelip EngagementLevel çakışabiliyor. Bu yüzden Level bilgisini ararken Engagement sütununu devre dışı bırakıyor
+    # Engagement" ve Level kelimeleri bazen yan yana gelip EngagementLevel çakışabiliyor.
+    # Bu yüzden Level bilgisini ararken Engagement sütununu devre dışı bırakıyor
     level_search_cols = [c for c in df_data.columns if c != engagement_col]
     level_col = find_col(level_search_cols, ["level"])
 
