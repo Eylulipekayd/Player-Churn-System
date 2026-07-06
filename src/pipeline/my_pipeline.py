@@ -1,0 +1,48 @@
+import pandas as pd
+import numpy as np
+
+
+def load_data(file_path):
+    """ Veriyi diskten okur"""
+    df = pd.read_csv(file_path)
+    return df
+
+
+def clean_data(df):
+    """ Eksik/aykırı değerleri temizler veya doldurur"""
+
+    return df
+
+
+def add_features(df):
+    """ Özellik mühendisliği (Yeni sütunlar ekleme)"""
+
+    return df
+
+
+def save_processed_data(df, output_path):
+    """ İşlenmiş son tabloyu kaydeder"""
+    df.to_csv(output_path, index=False)
+
+
+
+def run_pipeline():
+    print("Pipeline başlatıldı...")
+
+    #  Oku
+    read_df = load_data("data/my_dataset.csv")
+
+    #  Temizle
+    cleaned_df = clean_data(read_df)
+
+    #  Özellikleri üret
+    featured_df = add_features(cleaned_df)
+
+    #  Kaydet
+    save_processed_data(featured_df, "data/my_pipeline.csv")
+
+    print("Pipeline başarıyla tamamlandı! Veri kaydedildi.")
+
+
+if __name__ == "__main__":
+    run_pipeline()
