@@ -10,7 +10,7 @@ def oyuncu_profili_uret(n_players=10000):
     Oyuncunun doğum tarihi, kayıt tarihi ve bugünkü yaşını mantıksal tutarlılıkla simüle eder.
     """
     np.random.seed(42)
-    bugun = datetime.now()
+    bugun = datetime(2026, 7, 6)
     oyuncu_verisi = []
 
     for i in range(n_players):
