@@ -27,7 +27,14 @@ def clean_data(df):
 
 def add_features(df):
     """ Özellik mühendisliği (Yeni sütunlar ekleme)"""
-    
+    # Toplam oyun süresini hesaplar.
+    # Kaggle verisinde toplam süre yoktu, bu iki metriği çarparak toplam süreyi buluyoruz.
+    df['Toplam_Oyun_Suresi'] = df['OturumSayisi'] * df['Ortalama_Oturum_Suresi']
+
+    # Oturum başına harcamayı hesaplar.
+    # Oyuncunun her oyuna girdiğinde ortalama ne kadar para harcadığını gösterir.
+    # Oturum sayısı 0 olan satırlarda hata almamak için yine np.where kullanıyoruz.
+    df['Oturum_Basina_Harcama'] = np.where(df['OturumSayisi'] > 0, df['TotalSatınAlma'] / df['OturumSayisi'], 0)
     return df
 
 
