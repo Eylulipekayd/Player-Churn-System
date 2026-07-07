@@ -11,6 +11,18 @@ def load_data(file_path):
 def clean_data(df):
     """ Eksik/aykırı değerleri temizler veya doldurur"""
 
+    # Tabloda boş bırakılmış satırlar varsa onları kalıcı olarak siliyoruz.
+    df = df.dropna()
+
+    # Aykırı değer temizliği (negatif değer varsa sıfırlar.)
+    for sutun in df.columns:
+
+        # Tarih içeren, ID olan veya Churn durumu belirten sütunları temizliğin dışında tutuyoruz
+        if sutun in ['OyuncuID', 'Dogum_Tarihi', 'Kayit_Tarihi', 'Son_Giris', 'Churn_Durumu']:
+            continue
+
+        df[sutun] = np.where(df[sutun] < 0, 0, df[sutun])
+
     return df
 
 
@@ -23,7 +35,6 @@ def add_features(df):
 def save_processed_data(df, output_path):
     """ İşlenmiş son tabloyu kaydeder"""
     df.to_csv(output_path, index=False)
-
 
 
 def run_pipeline():

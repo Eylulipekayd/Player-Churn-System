@@ -9,14 +9,25 @@ def load_data(file_path):
 
 
 def clean_data(df):
-    """ Eksik/aykırı değerleri temizler veya doldurur"""
+    """ Eksik/aykırı değerleri temizler"""
 
+    # Tabloda boş bırakılmış satırlar varsa onları kalıcı olarak siliyoruz.
+    df = df.dropna()
+
+    # Aykırı değer temizliği (negatif değer varsa sıfırlar.)
+    for sutun in df.columns:
+
+        # ID, Churn ve metin tabanlı bağlılık sütununu temizliğin dışında tutuyoruz
+        if sutun in ['OyuncuID', 'OyunaBaglilik', 'Churn']:
+            continue
+
+        df[sutun] = np.where(df[sutun] < 0, 0, df[sutun])
     return df
 
 
 def add_features(df):
     """ Özellik mühendisliği (Yeni sütunlar ekleme)"""
-
+    
     return df
 
 
