@@ -41,7 +41,7 @@ def test_kaggle_clean_data():
 def test_kaggle_add_features():
     """ add_features fonksiyonunun yeni sütunları doğru hesaplayıp hesaplamadığını test eder """
 
-    # İkinci satırın oturum sayısını 0 yapıyoruz ki sıfıra bölme hatasını (ZeroDivisionError) test eder.
+    # İkinci satırın oturum sayısını 0 yapıyoruz ki sıfıra bölme hatasını (ZeroDivisionError) test etsin.
     sahte_veri = pd.DataFrame({
         "OturumSayisi": [5, 0],
         "Ortalama_Oturum_Suresi": [10, 20],
