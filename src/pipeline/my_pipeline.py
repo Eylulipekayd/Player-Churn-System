@@ -18,10 +18,15 @@ def clean_data(df):
     for sutun in df.columns:
 
         # Tarih içeren, ID olan veya Churn durumu belirten sütunları temizliğin dışında tutuyoruz
-        if sutun in ['OyuncuID', 'Dogum_Tarihi', 'Kayit_Tarihi', 'Son_Giris', 'Churn_Durumu']:
+        if sutun in ['Dogum_Tarihi', 'Kayit_Tarihi', 'Son_Giris', 'Churn_Durumu']:
             continue
-
-        df[sutun] = np.where(df[sutun] < 0, 0, df[sutun])
+        # OyuncuID 1000'den küçükse 0 yapar.
+        if sutun == "OyuncuID":
+            df[sutun] = np.where(df[sutun] < 1000, 0, df[sutun])
+            
+        # Diğer tüm sütunlar için negatif değerleri 0 yapar.
+        else:
+            df[sutun] = np.where(df[sutun] < 0, 0, df[sutun])
 
     return df
 
