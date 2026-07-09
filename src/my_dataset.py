@@ -111,7 +111,7 @@ def oyuncu_profili_uret(n_players=10000):
         #tüm bulunan veriler oyuncu verisi listesine eklenir ve dataframe yani tablo oluşturulur.
         oyuncu_verisi.append({
             "OyuncuID": 1000 + i,
-            "Dogum_Tarihi": dogum_tarihi.strftime("%Y-%m-%d"),  # Yeni eklendi
+            "Dogum_Tarihi": dogum_tarihi.strftime("%Y-%m-%d"),
             "Yas": yas,
             "Kayit_Tarihi": kayit_tarihi.strftime("%Y-%m-%d"),
             "Son_Giris": son_giris.strftime("%Y-%m-%d"),

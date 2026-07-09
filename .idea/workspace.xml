@@ -2,7 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a3d5e322-eebb-4076-8047-d915943b10e1" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/tests/test_kaggle.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_kaggle.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/my_pipeline.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/my_pipeline.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/my_dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/my_dataset.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pipeline/my_pipeline.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pipeline/my_pipeline.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/test_my_dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_my_dataset.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />

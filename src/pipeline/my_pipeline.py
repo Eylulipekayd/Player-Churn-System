@@ -38,10 +38,10 @@ def add_features(df):
     # Oyuncu hesabı açık olduğu süre boyunca oyuncu seviyesinin ilerleme hızını hesaplar.
     df['Ilerleme_Hizi'] = df['OyuncuSeviyesi'] / df['Hesap_Yasi']
 
-    # Oturum sıklığını hesaplar.
+    # Günlük oturum sıklığını hesaplar.
     # Hesap yaşı 0 olan veya hatalı satırlar varsa payda 0 olmasın diye np.where kullanıyoruz.
     toplam_gun = df['Hesap_Yasi'] * 365.25
-    df['Oturum_Sikligi'] = np.where(toplam_gun > 0, df['Toplam_Saat'] / toplam_gun, 0)
+    df['Gunluk_Oturum_Sikligi'] = np.where(toplam_gun > 0, df['Toplam_Saat'] / toplam_gun, 0)
     return df
 
 

@@ -1,4 +1,4 @@
-OyuncuID,Dogum_Tarihi,Yas,Kayit_Tarihi,Son_Giris,Ilkbahar_Saati,Yaz_Saati,Sonbahar_Saati,Kis_Saati,Toplam_Saat,OyuncuSeviyesi,Churn_Durumu,Hesap_Yasi,Ilerleme_Hizi,Oturum_Sikligi
+OyuncuID,Dogum_Tarihi,Yas,Kayit_Tarihi,Son_Giris,Ilkbahar_Saati,Yaz_Saati,Sonbahar_Saati,Kis_Saati,Toplam_Saat,OyuncuSeviyesi,Churn_Durumu,Hesap_Yasi,Ilerleme_Hizi,Gunluk_Oturum_Sikligi
 1000,1999-03-29,27,2025-05-02,2026-02-13,14,55,47,38,155,24,1,1.2,20.0,0.3536390600045631
 1001,2012-03-18,14,2025-02-11,2025-04-21,25,0,0,9,34,11,1,1.4,7.857142857142858,0.06649066197320817
 1002,1986-01-25,40,2026-05-02,2026-06-16,14,9,0,0,24,9,0,0.2,45.0,0.3285420944558522

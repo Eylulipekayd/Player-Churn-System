@@ -80,7 +80,7 @@ def test_my_data_add_features():
     assert yeni_df.loc[0, "Ilerleme_Hizi"] == 3.0
 
     # toplam_gun = 2.0 * 365.25 = 730.5 -> Oturum_Sikligi = 730.5 / 730.5 = 1.0 olmalıdır.
-    assert yeni_df.loc[0, "Oturum_Sikligi"] == 1.0
+    assert yeni_df.loc[0, "Gunluk_Oturum_Sikligi"] == 1.0
 
     # Hesap_Yasi = 0 olan uç durumda hata almayıp 0 yazdığını doğruluyor.
-    assert yeni_df.loc[1, "Oturum_Sikligi"] == 0
+    assert yeni_df.loc[1, "Gunluk_Oturum_Sikligi"] == 0
