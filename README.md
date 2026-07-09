@@ -42,4 +42,31 @@ my_dataset:
 python src/my_dataset.py
 ```
 
+## 🚀 Hafta 2 Güncellemeleri: Data Pipeline & Test Altyapısı
 
+Projenin ikinci haftasında, analiz adımları modüler hale getirilmiş ve sistem `pytest` ile test edilmiştir.
+
+### 1. Yenilenen Klasör ve Dosya Yapısı
+Proje dizinine pipeline ve testler için yeni klasörler eklenmiştir:
+
+* `src/pipeline/`: Modüler veri işleme hatları.
+    * `kaggle_pipeline.py`: Kaggle veri seti için pipeline scripti.
+    * `my_pipeline.py`: Kendi ürettiğim veri setini için pipeline scripti.
+  
+* `tests/`: Kod kalitesini ve veri tutarlılığını denetleyen testler.
+    * `test_kaggle.py`: Kaggle pipeline için veri kalitesi kontrolü yapar.
+    * `test_my_dataset.py`: My pipeline için veri kalitesi kontrolü yapar.
+
+### 2. Pipeline Terminalden Çalıştırılması
+Ham verileri temizlemek ve modellemeye hazır yeni özellikleri türetmek için veri hatları terminalden tek komutla çalıştırılabilir:
+```bash
+python src/pipeline/kaggle_pipeline.py
+```
+```bash
+python src/pipeline/my_pipeline.py
+```
+### 3.Testlerin Terminalden Çalıştırılması
+Yazılan tüm veri kalitesi kontrollerini ve sınır durum testlerini çalıştırmak için terminale şu komut yazılır:
+```bash
+pytest
+```
