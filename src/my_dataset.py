@@ -16,7 +16,7 @@ def oyuncu_profili_uret(n_players=10000):
     for i in range(n_players):
         #hedef yaş standart sapma mantığıyla 20 yaş ve 35 yaş aralığında daha yoğundur.
         #hedef yaş min 12 max 60 olabilir şeklinde ayarlanmıştır.
-        hedef_yas = int(np.random.normal(20, 15))
+        hedef_yas = int(np.random.normal(25, 5))
         hedef_yas = max(12, min(hedef_yas, 60))
 
         # Hedef yaşa uygun olarak geçmişten rastgele bir doğum tarihi seçiyoruz
