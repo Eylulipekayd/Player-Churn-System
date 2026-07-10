@@ -43,16 +43,9 @@ def player_data(input_path, output_path):
 
     df_filtered = df_data.rename(columns=columns_mapping)
 
-    if 'OyunaBaglilik' in df_filtered.columns:
-        df_filtered['Churn'] = np.where(df_filtered['OyunaBaglilik'] == 'Low', 1, 0)
-    else:
-        # Eğer sütun bulunamazsa kod patlamasın diye varsayılan 0 değeri atıyoruz
-        df_filtered['Churn'] = 0
-
-
 
     # Veri setinin sütunları gerekli sütunların içindeki isimler gibi  olsun.
-    gerekli_sutunlar = ["OyuncuID", "OturumSayisi", "OyuncuSeviyesi", "TotalSatınAlma", "Ortalama_Oturum_Suresi", "OyunaBaglilik", "Churn"]
+    gerekli_sutunlar = ["OyuncuID", "OturumSayisi", "OyuncuSeviyesi", "TotalSatınAlma", "Ortalama_Oturum_Suresi", "OyunaBaglilik"]
 
 
     # Filtrelenmiş veri setinden 10.000 satırı seçer

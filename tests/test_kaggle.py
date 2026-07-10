@@ -45,7 +45,8 @@ def test_kaggle_add_features():
     sahte_veri = pd.DataFrame({
         "OturumSayisi": [5, 0],
         "Ortalama_Oturum_Suresi": [10, 20],
-        "TotalSatınAlma": [10, 0]
+        "TotalSatınAlma": [10, 0],
+        "OyunaBaglilik": ["High", "Low"]
     })
 
     # Fonksiyonu çalıştırır.
@@ -60,3 +61,8 @@ def test_kaggle_add_features():
 
     # Oturum sayısı 0 olan satırda np.where sayesinde hata almayıp 0 yazdığını doğruluyor.
     assert yeni_df.loc[1, "Oturum_Basina_Harcama"] == 0
+
+    # 0. indeksteki oyuncunun bağlılığı "High" olduğu için Churn = 0 olmalı.
+    assert yeni_df.loc[0, "Churn"] == 0
+    # 1. indeksteki oyuncunun bağlılığı "Low" olduğu için Churn = 1 olmalı.
+    assert yeni_df.loc[1, "Churn"] == 1
