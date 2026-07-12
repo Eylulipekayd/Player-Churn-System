@@ -33,7 +33,7 @@ def add_features(df):
 
     # Oturum başına harcamayı hesaplar.
     # Oyuncunun her oyuna girdiğinde ortalama ne kadar para harcadığını gösterir.
-    # Oturum sayısı 0 olan satırlarda hata almamak için yine np.where kullanıyoruz.
+    # Oturum sayısı 0 olan satırlarda hata almamak için np.where kullanıyoruz.
     df['Oturum_Basina_Harcama'] = np.where(df['OturumSayisi'] > 0, df['TotalSatınAlma'] / df['OturumSayisi'], 0)
 
     if 'OyunaBaglilik' in df.columns:

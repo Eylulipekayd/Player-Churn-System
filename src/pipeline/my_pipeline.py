@@ -34,12 +34,11 @@ def clean_data(df):
 def add_features(df):
     """ Özellik mühendisliği (Yeni sütunlar ekleme)"""
 
-    #  İlerleme hızını hesaplar.
-    # Oyuncu hesabı açık olduğu süre boyunca oyuncu seviyesinin ilerleme hızını hesaplar.
-    df['Ilerleme_Hizi'] = df['OyuncuSeviyesi'] / df['Hesap_Yasi']
+    # Hesap yaşı 0 olan satırlarda hata almamak için np.where kullanıyoruz.
+    df['Ilerleme_Hizi'] = np.where(df['Hesap_Yasi'] > 0, df['OyuncuSeviyesi'] / df['Hesap_Yasi'], 0)
 
     # Günlük oturum sıklığını hesaplar.
-    # Hesap yaşı 0 olan veya hatalı satırlar varsa payda 0 olmasın diye np.where kullanıyoruz.
+    # Toplam gün 0 olan satırlarda hata almamak için np.where kullanıyoruz.
     toplam_gun = df['Hesap_Yasi'] * 365.25
     df['Gunluk_Oturum_Sikligi'] = np.where(toplam_gun > 0, df['Toplam_Saat'] / toplam_gun, 0)
     return df
