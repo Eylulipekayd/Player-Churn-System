@@ -20,58 +20,38 @@ def oyuncu_profili_uret(n_players=10000):
         hedef_yas = max(12, min(hedef_yas, 60))
 
         # Hedef yaşa uygun olarak geçmişten rastgele bir doğum tarihi seçiyoruz
-        # Hedef_yas=12 olan biri için toplam_gun_yas= 12 yıl 4 ay olabilir
-        # Buna göre doğum tarihi de 06.03.2014 olur.
         toplam_gun_yas = (hedef_yas * 365) + np.random.randint(0, 365)
         dogum_tarihi = bugun - timedelta(days=toplam_gun_yas)
-
-
-        # Oyuncu en erken 12. yaş gününde oyuna kaydolabilir.
-        #en_erken_kayit_tarihi= 06.03.2026 12 yaşına geldiği tarih olur.
         en_erken_kayit_tarihi = dogum_tarihi + timedelta(days=12 * 365)
 
         # Oyun 3 yıl önce çıkmış olarak ele aldım.
         oyun_acilis_tarihi = bugun - timedelta(days=1095)
 
         # Oyuncunun kaydolabileceği tarih aralığıdır.
-        # baslangic_tarihi = max(06.03.2026,06.07.2023) büyük değer seçilir.
         baslangic_tarihi = max(en_erken_kayit_tarihi, oyun_acilis_tarihi)
-
-        #Oyuncunun potansiyel olarak kaydolabileceği en eski gün ile bugün arasındaki toplam süredir
-        #kalan_gun_araligi = (06.07.2026-06.03.2026)'dan 120 gün gelir.
         kalan_gun_araligi = (bugun - baslangic_tarihi).days
 
         #kalan_gun_araligi de çıkan değere göre kayıt tarihi bulunur.
-        if kalan_gun_araligi <= 0:
-            kayit_tarihi = bugun
-
-        # Kayıt olma tarihleri üstel olsun eşit oranlarda dağılmasın.
-        # 120 için else çalışır. carpan 01*01=0,01 olsun dersek mesela gun_farki = 1,2 gündür, virgülden sonrası silinir 1 gündür.
-        # Buna göre kayit_tarihi = 07.03.2026 olur.
-        else:
+        if kalan_gun_araligi > 0:
             carpan = np.random.random() ** 2
             gun_farki = int(carpan * kalan_gun_araligi)
-
             kayit_tarihi = baslangic_tarihi + timedelta(days=gun_farki)
 
+        else:
+            kayit_tarihi = bugun
 
-        # Artık doğum tarihi net olduğu için bugünkü yaşı küsuratlı hesaplayabiliriz
-        # yas=(06.07.2026 - 06.03.2014)/ 365.25 den 12 gelir.
+
+
         yas = int((bugun - dogum_tarihi).days / 365.25)
-        # toplam_gun = (06.07.2026 - 07.03.2026) den yaklaşık 120 bulunur.
         toplam_gun = (bugun - kayit_tarihi).days
 
-        # %50 ihtimalle aktifse toplam gün ile (yaklaşık 120) 21 arasından min olan seçilir yani 21
-        # gun_farki_bugunden = (0.21) arasından mesela 14 gelsin diyelim.
-        # Buna göre son_giris = (06.07.2026 - 14 gün) den 22.06.2026 gelir
+        # Oyuncu %50 ihtimalle aktifse
 
         if np.random.random() < 0.5:
             gun_farki_bugunden = np.random.randint(0, min(21, toplam_gun + 1))
             son_giris = bugun - timedelta(days=gun_farki_bugunden)
 
-        #%50 ihtimalle pasif kısmında toplam gün 21 den yüksekse ki yaklaşık 120 olarak ele aldık.
-        # gun_farki_bugunden =(22,121) den 80 gelebilir mesela
-        # Buna göre son_giris =(06.07.2026 - 80 gün) den 17.04.2026 olur.
+        # Oyuncu %50 ihtimalle pasif
         else:
 
             if toplam_gun > 21:
