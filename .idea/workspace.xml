@@ -5,8 +5,6 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/notebooks/models/kaggle_model.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/models/kaggle_model.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/notebooks/models/my_model.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/models/my_model.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pipeline/kaggle_pipeline.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/pipeline/kaggle_pipeline.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_my_dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_my_dataset.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
