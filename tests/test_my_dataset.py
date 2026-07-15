@@ -33,7 +33,7 @@ def test_my_data_clean_data():
 
     # Kontrollerin yapıldığı kısımdır.
     # dropna() sayesinde Churn_Durumu NaN olan satır silindi, geriye 2 satır kalmalıdır.
-    assert len(temizlenmis_df) == 1
+    assert len(temizlenmis_df) == 2
 
     # 1000'den küçük olan 999 ID'sinin ve negatif sayıların başarıyla 0 yapıldığını doğrular.
     assert temizlenmis_df.loc[1, "OyuncuID"] == 0

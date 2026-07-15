@@ -18,7 +18,7 @@ def clean_data(df):
     for sutun in df.columns:
 
         # ID, Churn ve metin tabanlı bağlılık sütununu temizliğin dışında tutuyoruz
-        if sutun in ['OyuncuID', 'OyunaBaglilik', 'Churn']:
+        if sutun in ['OyuncuID', 'OyunaBaglilik']:
             continue
 
         df[sutun] = np.where(df[sutun] < 0, 0, df[sutun])
