@@ -127,7 +127,7 @@ def train_and_evaluate(X, y, reports_dir):
     ax.tick_params(colors=text_color, which='both', labelsize=11)
     ax.set_xlabel('Yalancı Alarm Oranı (False Positive Rate)', color=text_color, fontsize=11, labelpad=10)
     ax.set_ylabel('Doğru Yakalama Oranı (True Positive Rate)', color=text_color, fontsize=11, labelpad=10)
-    ax.set_title('Kaggle Veri Seti: ROC Eğrisi Karşılaştırması', color=text_color, fontsize=13, fontweight='bold',
+    ax.set_title('ROC Eğrisi Karşılaştırması', color=text_color, fontsize=13, fontweight='bold',
                  pad=15)
 
     legend = ax.legend(loc='lower right', facecolor='#252525', edgecolor='#333333', fontsize=10)
