@@ -88,7 +88,7 @@ def train_and_evaluate(X_my, Y_my, reports_dir):
     plt.close()
     print(f"\n✓ Karmaşıklık matrisi grafiği kaydedildi: {cm_plot_path}")
 
-    # 6. Dinamik ROC-AUC Hesaplama ve Görselleştirme
+    # 6. ROC Eğrisi Çizimi
     Y_probs_base_my = baseline_my.predict_proba(X_test_my)[:, 1]
     Y_probs_rf_my = rf_my.predict_proba(X_test_my)[:, 1]
 
@@ -98,43 +98,48 @@ def train_and_evaluate(X_my, Y_my, reports_dir):
     fpr_rf_my, tpr_rf_my, _ = roc_curve(Y_test_my, Y_probs_rf_my)
     roc_auc_rf_my = auc(fpr_rf_my, tpr_rf_my)
 
-    model_names = ['Logistic Regression\n(Baseline)', 'Random Forest']
-    auc_scores = [roc_auc_base_my, roc_auc_rf_my]
-
+    # Grafik Alanı Tanımlama
     dark_bg = '#1e1e1e'
     text_color = '#e0e0e0'
-    bar_colors = ['#00b0ff', '#00e676']
 
-    fig, ax = plt.subplots(figsize=(8, 4), dpi=100)
+    fig, ax = plt.subplots(figsize=(8, 6), dpi=100)
     fig.patch.set_facecolor(dark_bg)
     ax.set_facecolor(dark_bg)
 
-    bars = ax.barh(model_names, auc_scores, color=bar_colors, height=0.5, edgecolor='#333333', linewidth=1.2)
+    # Modellerin Eğrilerini Çizdirme
+    ax.plot(fpr_base_my, tpr_base_my, color='#00b0ff', linewidth=2.5,
+            label=f'Logistic Regression (AUC = {roc_auc_base_my:.4f})')
+    ax.plot(fpr_rf_my, tpr_rf_my, color='#00e676', linewidth=2.5,
+            label=f'Random Forest (AUC = {roc_auc_rf_my:.4f})')
+
+    # Rastgele Tahmin Çizgisi (Kılavuz Çizgi)
+    ax.plot([0, 1], [0, 1], color='#888888', linestyle='--', linewidth=1.5, label='Rastgele Tahmin (AUC = 0.5000)')
+
+    # Grafik Sınırları ve Izgara Ayarları
+    ax.set_xlim([-0.01, 1.01])
+    ax.set_ylim([-0.01, 1.01])
     ax.xaxis.grid(True, color='#333333', linestyle='--', linewidth=0.7)
-    ax.yaxis.grid(False)
+    ax.yaxis.grid(True, color='#333333', linestyle='--', linewidth=0.7)
 
-    for bar in bars:
-        width = bar.get_width()
-        ax.text(width - 0.12,
-                bar.get_y() + bar.get_height() / 2,
-                f'AUC: {width:.4f}',
-                va='center', ha='left',
-                color='#ffffff', fontweight='bold', fontsize=11)
-
-    ax.set_xlim([0.80, 1.01])
     for spine in ax.spines.values():
         spine.set_color('#333333')
 
     ax.tick_params(colors=text_color, which='both', labelsize=11)
-    ax.set_xlabel('ROC-AUC Skoru', color=text_color, fontsize=11, labelpad=10)
-    ax.set_title('Modellerin ROC-AUC Karşılaştırması', color=text_color, fontsize=13, fontweight='bold', pad=15)
+    ax.set_xlabel('Yalancı Alarm Oranı (False Positive Rate)', color=text_color, fontsize=11, labelpad=10)
+    ax.set_ylabel('Doğru Yakalama Oranı (True Positive Rate)', color=text_color, fontsize=11, labelpad=10)
+    ax.set_title('Kendi Veri Setim: ROC Eğrisi Karşılaştırması', color=text_color, fontsize=13, fontweight='bold',
+                 pad=15)
+
+    # Lejant (Açıklama Kutusu) Ayarları
+    legend = ax.legend(loc='lower right', facecolor='#252525', edgecolor='#333333', fontsize=10)
+    plt.setp(legend.get_texts(), color=text_color)
 
     plt.tight_layout()
 
     roc_plot_path = os.path.join(reports_dir, "my_roc_auc.png")
     plt.savefig(roc_plot_path, dpi=300)
     plt.close()
-    print(f"✓ ROC-AUC karşılaştırma grafiği kaydedildi: {roc_plot_path}")
+    print(f"✓ROC Eğrisi grafiği kaydedildi: {roc_plot_path}")
 
     # 7. Özellik önemlerinin çıkarılması
 
@@ -143,7 +148,7 @@ def train_and_evaluate(X_my, Y_my, reports_dir):
 
     # Verileri bir DataFrame'de toplayıp büyükten küçüğe sıralıyoruz
     feat_importances = pd.Series(importances, index=feature_names).sort_values(ascending=True)
-    
+
     fig, ax = plt.subplots(figsize=(10, 6), dpi=100)
     fig.patch.set_facecolor(dark_bg)
     ax.set_facecolor(dark_bg)
