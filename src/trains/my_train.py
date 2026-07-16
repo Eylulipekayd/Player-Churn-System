@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 
 def load_processed_data(file_path):
-    """Kaggle temizlenmiş pipeline verisini yükler."""
+    """Temizlenmiş pipeline veri yükler."""
     if not os.path.exists(file_path):
         raise FileNotFoundError(
             f"Hata: {file_path} bulunamadı!\nDosya yolunu kontrol edin: {os.path.abspath(file_path)}")
@@ -19,89 +19,87 @@ def load_processed_data(file_path):
 
 
 def prepare_features(df):
-    sutunlar_to_drop = ['Churn', 'OyuncuID', 'OyunaBaglilik']
+    sutunlar_to_drop_my = ['OyuncuID', 'Dogum_Tarihi', 'Kayit_Tarihi', 'Son_Giris', 'Churn_Durumu']
 
-    X = df.drop(columns=[col for col in sutunlar_to_drop if col in df.columns])
-    y = df['Churn']
+    X_my = df.drop(columns=[col for col in sutunlar_to_drop_my if col in df.columns])
+    Y_my = df['Churn_Durumu']
 
-    print("\nModelin kullanacağı girdiler sütun sayısı:", X.shape[1])
-    print("Sütunların Listesi:", X.columns.tolist())
-    return X, y
+    print("\nModelin kullanacağı girdiler sütun sayısı:", X_my.shape[1])
+    print("Sütunların Listesi:", X_my.columns.tolist())
+    return X_my, Y_my
 
 
-def train_and_evaluate(X, y, reports_dir):
+def train_and_evaluate(X_my, Y_my, reports_dir):
     """Modelleri eğitir, çapraz doğrulama yapar ve grafikleri kaydeder."""
     os.makedirs(reports_dir, exist_ok=True)
 
     # 1. Train-Test
-    X_train, X_test, y_train, y_test = train_test_split(
-        X, y,
+    X_train_my, X_test_my, Y_train_my, Y_test_my = train_test_split(
+        X_my, Y_my,
         test_size=0.20,
         random_state=42,
-        stratify=y
+        stratify=Y_my
     )
-    print(f"\nTrain Set Boyutu: {X_train.shape}")
-    print(f"Test Set Boyutu: {X_test.shape}")
+    print(f"\nEğitim Seti Boyutu (X_train_my): {X_train_my.shape}")
+    print(f"Test Seti Boyutu (X_test_my): {X_test_my.shape}")
 
     # 2. Baseline Model (Logistic Regression)
-    baseline_model = LogisticRegression(max_iter=1000, random_state=42)
-    baseline_model.fit(X_train, y_train)
-    y_pred_baseline = baseline_model.predict(X_test)
+    baseline_my = LogisticRegression(max_iter=3000, random_state=42)
+    baseline_my.fit(X_train_my, Y_train_my)
+    Y_pred_base_my = baseline_my.predict(X_test_my)
 
-    print("\n=== BASELINE MODEL (LOGISTIC REGRESSION) PERFORMANSI ===")
-    print(classification_report(y_test, y_pred_baseline))
+    print("\n=== BASELINE MODEL (LOGISTIC REGRESSION) PERFORMANSI ===\n")
+    print(classification_report(Y_test_my, Y_pred_base_my))
 
     # 3. Ağaç Tabanlı Model (Random Forest)
-    rf_model = RandomForestClassifier(n_estimators=100, random_state=42)
-    rf_model.fit(X_train, y_train)
-    y_pred_rf = rf_model.predict(X_test)
+    rf_my = RandomForestClassifier(n_estimators=100, random_state=42)
+    rf_my.fit(X_train_my, Y_train_my)
+    Y_pred_rf_my = rf_my.predict(X_test_my)
 
-    print("\n=== AĞAÇ TABANLI MODEL (RANDOM FOREST) PERFORMANSI ===")
-    print(classification_report(y_test, y_pred_rf))
+    print("\n=== AĞAÇ TABANLI MODEL (RANDOM FOREST) PERFORMANSI ===\n")
+    print(classification_report(Y_test_my, Y_pred_rf_my))
 
-    # 4.Çapraz Doğrulama
-    cv_scores = cross_val_score(rf_model, X_train, y_train, cv=5, scoring='f1')
+    # 4. Çapraz Doğrulama (Cross-Validation)
+    cv_scores_my = cross_val_score(rf_my, X_train_my, Y_train_my, cv=5, scoring='f1')
     print("\n=== ÇAPRAZ DOĞRULAMA SONUÇLARI ===")
-
-    clean_scores = [round(float(score), 4) for score in cv_scores]
-    print("Her bir katın F1 Skoru:", clean_scores)
-    print(f"Ortalama F1 Skoru: {cv_scores.mean():.4f}")
-    print(f"F1 Skorlarının Standart Sapması: {cv_scores.std():.4f}")
+    clean_scores_my = [round(float(score), 4) for score in cv_scores_my]
+    print("Her katın F1 skoru:", clean_scores_my)
+    print(f"Ortalama F1 Skoru  : {cv_scores_my.mean():.4f}")
+    print(f"Standart Sapma     : {cv_scores_my.std():.4f}")
 
     # 5. Karmaşıklık Matrislerini Çizdirme ve Kaydetme
     fig, axes = plt.subplots(1, 2, figsize=(14, 5))
 
-    cm_base = confusion_matrix(y_test, y_pred_baseline)
-    disp_base = ConfusionMatrixDisplay(confusion_matrix=cm_base, display_labels=["Churn(0)", "Churn(1)"])
-    disp_base.plot(ax=axes[0], cmap='Blues', values_format='d')
+    cm_base_my = confusion_matrix(Y_test_my, Y_pred_base_my)
+    disp_base_my = ConfusionMatrixDisplay(confusion_matrix=cm_base_my, display_labels=["Churn (0)", "Churn(1)"])
+    disp_base_my.plot(ax=axes[0], cmap='Blues', values_format='d')
     axes[0].set_title('Logistic Regression (Baseline)')
 
-    cm_rf = confusion_matrix(y_test, y_pred_rf)
-    disp_rf = ConfusionMatrixDisplay(confusion_matrix=cm_rf, display_labels=["Churn(0)", "Churn(1)"])
-    disp_rf.plot(ax=axes[1], cmap='Greens', values_format='d')
+    cm_rf_my = confusion_matrix(Y_test_my, Y_pred_rf_my)
+    disp_rf_my = ConfusionMatrixDisplay(confusion_matrix=cm_rf_my, display_labels=["Churn(0)", "Churn(1)"])
+    disp_rf_my.plot(ax=axes[1], cmap='Greens', values_format='d')
     axes[1].set_title('Random Forest')
 
     plt.suptitle('Karmaşıklık Matrisi Karşılaştırması', fontsize=14, y=1.05)
     plt.tight_layout()
 
-    # Karmaşıklık matrisini kaydet
-    cm_plot_path = os.path.join(reports_dir, "kaggle_confusion_matrix.png")
+    cm_plot_path = os.path.join(reports_dir, "my_confusion_matrix.png")
     plt.savefig(cm_plot_path, dpi=300)
     plt.close()
     print(f"\n✓ Karmaşıklık matrisi grafiği kaydedildi: {cm_plot_path}")
 
     # 6. Dinamik ROC-AUC Hesaplama ve Görselleştirme
-    y_probs_base = baseline_model.predict_proba(X_test)[:, 1]
-    y_probs_rf = rf_model.predict_proba(X_test)[:, 1]
+    Y_probs_base_my = baseline_my.predict_proba(X_test_my)[:, 1]
+    Y_probs_rf_my = rf_my.predict_proba(X_test_my)[:, 1]
 
-    fpr_base, tpr_base, _ = roc_curve(y_test, y_probs_base)
-    auc_base = auc(fpr_base, tpr_base)
+    fpr_base_my, tpr_base_my, _ = roc_curve(Y_test_my, Y_probs_base_my)
+    roc_auc_base_my = auc(fpr_base_my, tpr_base_my)
 
-    fpr_rf, tpr_rf, _ = roc_curve(y_test, y_probs_rf)
-    auc_rf = auc(fpr_rf, tpr_rf)
+    fpr_rf_my, tpr_rf_my, _ = roc_curve(Y_test_my, Y_probs_rf_my)
+    roc_auc_rf_my = auc(fpr_rf_my, tpr_rf_my)
 
-    model_names = ['Logistic Regression\n(Baseline)', 'Random Forest\n(Ağaç Tabanlı)']
-    auc_scores = [auc_base, auc_rf]
+    model_names = ['Logistic Regression\n(Baseline)', 'Random Forest']
+    auc_scores = [roc_auc_base_my, roc_auc_rf_my]
 
     dark_bg = '#1e1e1e'
     text_color = '#e0e0e0'
@@ -124,40 +122,40 @@ def train_and_evaluate(X, y, reports_dir):
                 color='#ffffff', fontweight='bold', fontsize=11)
 
     ax.set_xlim([0.80, 1.01])
-
     for spine in ax.spines.values():
         spine.set_color('#333333')
 
     ax.tick_params(colors=text_color, which='both', labelsize=11)
     ax.set_xlabel('ROC-AUC Skoru', color=text_color, fontsize=11, labelpad=10)
-    ax.set_title('Modellerin ROC-AUC Performans Karşılaştırması', color=text_color, fontsize=13, fontweight='bold',
-                 pad=15)
+    ax.set_title('Modellerin ROC-AUC Karşılaştırması', color=text_color, fontsize=13, fontweight='bold', pad=15)
 
     plt.tight_layout()
 
-    # ROC-AUC grafiğini kaydet
-    roc_plot_path = os.path.join(reports_dir, "kaggle_roc_auc.png")
+    roc_plot_path = os.path.join(reports_dir, "my_roc_auc.png")
     plt.savefig(roc_plot_path, dpi=300)
     plt.close()
     print(f"✓ ROC-AUC karşılaştırma grafiği kaydedildi: {roc_plot_path}")
 
     # 7. Özellik önemlerinin çıkarılması
-    importances = rf_model.feature_importances_
-    feature_names = X.columns
 
-    # Özellik önemlerini DataFrame'e döküp sıralıyoruz
+    importances = rf_my.feature_importances_
+    feature_names = X_my.columns
+
+    # Verileri bir DataFrame'de toplayıp büyükten küçüğe sıralıyoruz
     feat_importances = pd.Series(importances, index=feature_names).sort_values(ascending=True)
-
-    fig, ax = plt.subplots(figsize=(10, 5), dpi=100)
+    
+    fig, ax = plt.subplots(figsize=(10, 6), dpi=100)
     fig.patch.set_facecolor(dark_bg)
     ax.set_facecolor(dark_bg)
-    bars = ax.barh(feat_importances.index, feat_importances.values, color='#00e676', edgecolor='#333333', height=0.5)
+    bars = ax.barh(feat_importances.index, feat_importances.values, color='#00e676', edgecolor='#333333', height=0.6)
 
+    # Izgara çizgileri ve kenarlık tasarımları
     ax.xaxis.grid(True, color='#333333', linestyle='--', linewidth=0.7)
     ax.yaxis.grid(False)
     for spine in ax.spines.values():
         spine.set_color('#333333')
 
+    # Barların üzerine yüzde değerlerini yazıyoruz
     for bar in bars:
         width = bar.get_width()
         ax.text(width + 0.005,
@@ -173,23 +171,24 @@ def train_and_evaluate(X, y, reports_dir):
 
     plt.tight_layout()
 
-    feat_plot_path = os.path.join(reports_dir, "kaggle_feature_importances.png")
+    # Grafiği reports klasörüne kaydediyoruz
+    feat_plot_path = os.path.join(reports_dir, "my_feature_importances.png")
     plt.savefig(feat_plot_path, dpi=300)
     plt.close()
     print(f"✓ Özellik önem dereceleri grafiği kaydedildi: {feat_plot_path}")
 
 
 if __name__ == "__main__":
-
+    # trains klasörünün iki seviye yukarısındaki ana klasörü buluyoruz
     base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 
-    data_path = os.path.join(base_dir, "data", "kaggle_pipeline.csv")
+    data_path = os.path.join(base_dir, "data", "my_pipeline.csv")
     reports_dir = os.path.join(base_dir, "reports")
 
-    print("=== KAGGLE TRAİN PİPELİNE BAŞLATILDI ===")
+    print("=== MY TRAİN PİPELİNE BAŞLATILDI ===")
 
-    df = load_processed_data(data_path)
-    X, y = prepare_features(df)
-    train_and_evaluate(X, y, reports_dir)
+    df_my = load_processed_data(data_path)
+    X_my, Y_my = prepare_features(df_my)
+    train_and_evaluate(X_my, Y_my, reports_dir)
 
     print("\n=== TÜM İŞLEMLER BAŞARIYLA TAMAMLANDI ===")
