@@ -140,7 +140,7 @@ def train_and_evaluate(X, y, reports_dir):
     plt.close()
     print(f"✓OC Eğrisi grafiği kaydedildi: {roc_plot_path}")
 
-    # 7. Özellik önemlerinin çıkarılması
+    # 7. Özellik önemleri
     importances = rf_model.feature_importances_
     feature_names = X.columns
 
