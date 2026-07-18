@@ -55,9 +55,12 @@ def player_data(input_path, output_path):
 
 
     #Veri setinin olduğu csv okuyacağı input ve filtrelenmiş halini kaydedeceğimiz output belirtir.
-if __name__ == "__main__":
 
-    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
+if __name__ == "__main__":
+    # Doğru yazımı budur: dirname ile dosyanın klasörünü alıp, join ile iki üst klasöre çıkıyoruz
+    base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+
     input_file = os.path.join(base_dir, "data", "gaming_data.csv")
     output_file = os.path.join(base_dir, "data", "kaggle_dataset.csv")
 

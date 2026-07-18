@@ -183,7 +183,7 @@ if __name__ == "__main__":
     base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 
     data_path = os.path.join(base_dir, "data", "kaggle_pipeline.csv")
-    reports_dir = os.path.join(base_dir, "reports")
+    reports_dir = os.path.join(base_dir, "reports", "Hafta_3", "train_results")
 
     print("=== KAGGLE TRAİN PİPELİNE BAŞLATILDI ===")
 

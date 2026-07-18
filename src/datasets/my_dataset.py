@@ -109,8 +109,9 @@ def oyuncu_profili_uret(n_players=10000):
 
 
 if __name__ == "__main__":
-    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    # dirname ile dosyanın klasörünü alıp, join ile iki üst klasöre (Ana Dizin) çıkıyoruz
+    base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
     data_dir = os.path.join(base_dir, "data")
-    df = oyuncu_profili_uret(10000)
 
+    df = oyuncu_profili_uret(10000)
     df.to_csv(os.path.join(data_dir, "my_dataset.csv"), index=False)

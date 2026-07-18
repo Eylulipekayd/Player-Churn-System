@@ -35,11 +35,11 @@ Analiz süreçlerini başlatmadan önce verileri hazırlamak için src/ klasör�
 
 kaggle_dataset:
 ```bash
-python src/kaggle_dataset.py
+python src/datasets/kaggle_dataset.py
 ```
 my_dataset:
 ```bash
-python src/my_dataset.py
+python src/datasets/my_dataset.py
 ```
 
 ## Hafta 2 Güncellemeleri: Data Pipeline & Test Altyapısı
@@ -51,7 +51,7 @@ Proje dizinine pipeline ve testler için yeni klasörler eklenmiştir:
 
 * `src/pipeline/`: Modüler veri işleme hatları.
     * `kaggle_pipeline.py`: Kaggle veri seti için pipeline scripti.
-    * `my_pipeline.py`: Kendi ürettiğim veri setini için pipeline scripti.
+    * `my_pipeline.py`: Kendi ürettiğim veri seti için pipeline scripti.
   
 * `tests/`: Kod kalitesini ve veri tutarlılığını denetleyen testler.
     * `test_kaggle.py`: Kaggle pipeline için veri kalitesi kontrolü yapar.
@@ -78,22 +78,22 @@ Projenin üçüncü haftasında, veri işleme hatlarından gelen temizlenmiş ve
 Modelleme süreçleri için projeye yeni notebooklar ve model eğitim scriptleri eklenmiştir:
 
 * `notebooks/`
-    * `model_training.ipynb`: Modellerin deneysel olarak kurulduğu, eğitildiği ve analiz edildiği Jupyter not defteri.
+    * `models.ipynb`: Modellerin deneysel olarak kurulduğu, eğitildiği ve analiz edildiği Jupyter not defteri.
 
 * `src/trains/`
-    * `train_kaggle.py`: Kaggle veri seti üzerinde modellerini eğitir.
-    * `train_my_dataset.py`: Kendi ürettiğimiz veri seti üzerinde modelleri eğitir.
+    * `kaggle_train.py`: Kaggle veri seti üzerinde modelleri eğitir.
+    * `my_train.py`: Kendi ürettiğim veri seti üzerinde modelleri eğitir.
 
 ### 2. Model Eğitim Scriptlerinin Terminalden Çalıştırılması
 Hazırlanan modüler eğitim scriptlerini modelleri eğitmek, metrik tablolarını basmak ve performans grafiklerini otomatik olarak üretmek için terminalden şu komutlar çalıştırılır:
 
 Kaggle modellerini eğitmek ve değerlendirmek için:
 ```bash
-python src/trains/train_kaggle.py
+python src/trains/kaggle_train.py
 ```
 Kendi veri setimin modellerini eğitmek ve değerlendirmek için:
 ```bash
-python src/trains/train_my_dataset.py
+python src/trains/my_train.py
 ```
 ### 3. Model Çıktıları
 Eğitim scriptleri başarıyla çalıştıktan sonra elde edilen Precision, Recall, F1-Score, Accuracy ve Cross-Validation sonuçları otomatik olarak hesaplanır. 
