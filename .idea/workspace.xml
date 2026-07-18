@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a3d5e322-eebb-4076-8047-d915943b10e1" name="Changes" comment="" />
+    <list default="true" id="a3d5e322-eebb-4076-8047-d915943b10e1" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/notebooks/kaggle_dataset_EDA.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/EDA/kaggle_dataset_EDA.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/notebooks/my_dataset_EDA.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/notebooks/EDA/my_dataset_EDA.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/kaggle_dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/datasets/kaggle_dataset.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/my_dataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/datasets/my_dataset.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -72,7 +77,7 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="DEBUG_JUST_MY_CODE" value="false" />
       <option name="RUN_TOOL" value="" />
-      <option name="SCRIPT_NAME" value="C:\Users\eylul\Desktop\PycharmProjects\player_churn_system\src\my_dataset.py" />
+      <option name="SCRIPT_NAME" value="C:\Users\eylul\Desktop\PycharmProjects\player_churn_system\src\datasets\my_dataset.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
