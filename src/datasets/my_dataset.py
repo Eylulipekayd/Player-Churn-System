@@ -14,8 +14,8 @@ def oyuncu_profili_uret(n_players=10000):
     oyuncu_verisi = []
 
     for i in range(n_players):
-        #hedef yaş standart sapma mantığıyla 20 yaş ve 30 yaş aralığında daha yoğundur.
-        #hedef yaş min 12 max 60 olabilir şeklinde ayarlanmıştır.
+        # hedef yaş standart sapma mantığıyla 20 yaş ve 30 yaş aralığında daha yoğundur.
+        # hedef yaş min 12 max 60 olabilir şeklinde ayarlanmıştır.
         hedef_yas = int(np.random.normal(25, 5))
         hedef_yas = max(12, min(hedef_yas, 60))
 
@@ -31,7 +31,7 @@ def oyuncu_profili_uret(n_players=10000):
         baslangic_tarihi = max(en_erken_kayit_tarihi, oyun_acilis_tarihi)
         kalan_gun_araligi = (bugun - baslangic_tarihi).days
 
-        #kalan_gun_araligi de çıkan değere göre kayıt tarihi bulunur.
+        # kalan_gun_araligi de çıkan değere göre kayıt tarihi bulunur.
         if kalan_gun_araligi > 0:
             carpan = np.random.random() ** 2
             gun_farki = int(carpan * kalan_gun_araligi)
@@ -39,8 +39,6 @@ def oyuncu_profili_uret(n_players=10000):
 
         else:
             kayit_tarihi = bugun
-
-
 
         yas = int((bugun - dogum_tarihi).days / 365.25)
         toplam_gun = (bugun - kayit_tarihi).days
@@ -64,7 +62,6 @@ def oyuncu_profili_uret(n_players=10000):
         # girilmeyen gün sayısına göre churn hesabı yapılır 21 ve sonrası churn durumundadır.
         girilmeyen_gun_sayisi = (bugun - son_giris).days
 
-
         # öğrenci yaş grubunu bulur.
         ogrenci_mi = 12 <= yas <= 22
         mevsimsel_saatler = {"Ilkbahar": 0, "Yaz": 0, "Sonbahar": 0, "Kış": 0}
@@ -74,14 +71,25 @@ def oyuncu_profili_uret(n_players=10000):
         current = kayit_tarihi
         while current <= bugun:
             ay = current.month
-            mevsim = "Ilkbahar" if ay in [3, 4, 5] else (
-                "Yaz" if ay in [6, 7, 8] else ("Sonbahar" if ay in [9, 10, 11] else "Kış"))
+            mevsim = (
+                "Ilkbahar"
+                if ay in [3, 4, 5]
+                else (
+                    "Yaz"
+                    if ay in [6, 7, 8]
+                    else ("Sonbahar" if ay in [9, 10, 11] else "Kış")
+                )
+            )
 
             # Oyuncu pasif olduğu günlerde oynamadı
             if current > son_giris:
                 gunluk_saat = 0
             else:
-                carpan = 3.5 if (mevsim == "Yaz" and ogrenci_mi) else (1.2 if mevsim == "Yaz" else 1.0)
+                carpan = (
+                    3.5
+                    if (mevsim == "Yaz" and ogrenci_mi)
+                    else (1.2 if mevsim == "Yaz" else 1.0)
+                )
                 gunluk_saat = max(0, np.random.normal(0.5 * carpan, 0.2))
 
             mevsimsel_saatler[mevsim] += gunluk_saat
@@ -97,26 +105,27 @@ def oyuncu_profili_uret(n_players=10000):
         if toplam_saat > 150 and girilmeyen_gun_sayisi <= 30:
             churn_olasiligi -= 0.20
 
-       
         churn_olasiligi = max(0.05, min(0.95, churn_olasiligi))
         churn = 1 if np.random.random() < churn_olasiligi else 0
 
-        #tüm bulunan veriler oyuncu verisi listesine eklenir ve dataframe yani tablo oluşturulur.
-        oyuncu_verisi.append({
-            "OyuncuID": 1000 + i,
-            "Dogum_Tarihi": dogum_tarihi.strftime("%Y-%m-%d"),
-            "Yas": yas,
-            "Kayit_Tarihi": kayit_tarihi.strftime("%Y-%m-%d"),
-            "Son_Giris": son_giris.strftime("%Y-%m-%d"),
-            "Ilkbahar_Saati": int(mevsimsel_saatler["Ilkbahar"]),
-            "Yaz_Saati": int(mevsimsel_saatler["Yaz"]),
-            "Sonbahar_Saati": int(mevsimsel_saatler["Sonbahar"]),
-            "Kis_Saati": int(mevsimsel_saatler["Kış"]),
-            "Toplam_Saat": int(toplam_saat),
-            "OyuncuSeviyesi": seviye,
-            "Churn_Durumu": churn,
-            "Hesap_Yasi": hesap_yasi
-        })
+        # tüm bulunan veriler oyuncu verisi listesine eklenir ve dataframe yani tablo oluşturulur.
+        oyuncu_verisi.append(
+            {
+                "OyuncuID": 1000 + i,
+                "Dogum_Tarihi": dogum_tarihi.strftime("%Y-%m-%d"),
+                "Yas": yas,
+                "Kayit_Tarihi": kayit_tarihi.strftime("%Y-%m-%d"),
+                "Son_Giris": son_giris.strftime("%Y-%m-%d"),
+                "Ilkbahar_Saati": int(mevsimsel_saatler["Ilkbahar"]),
+                "Yaz_Saati": int(mevsimsel_saatler["Yaz"]),
+                "Sonbahar_Saati": int(mevsimsel_saatler["Sonbahar"]),
+                "Kis_Saati": int(mevsimsel_saatler["Kış"]),
+                "Toplam_Saat": int(toplam_saat),
+                "OyuncuSeviyesi": seviye,
+                "Churn_Durumu": churn,
+                "Hesap_Yasi": hesap_yasi,
+            }
+        )
 
     return pd.DataFrame(oyuncu_verisi)
 
