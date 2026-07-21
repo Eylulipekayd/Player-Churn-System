@@ -63,7 +63,7 @@ def oyuncu_profili_uret(n_players=10000):
 
         # girilmeyen gün sayısına göre churn hesabı yapılır 21 ve sonrası churn durumundadır.
         girilmeyen_gun_sayisi = (bugun - son_giris).days
-        churn = 1 if girilmeyen_gun_sayisi > 21 else 0
+
 
         # öğrenci yaş grubunu bulur.
         ogrenci_mi = 12 <= yas <= 22
@@ -72,21 +72,34 @@ def oyuncu_profili_uret(n_players=10000):
         # yaz mevsiminde öğrenci oyun saati çarpanı artar.
         # Günlük oyun saati mevsimlere göre hesaplanır ve sözlüğe eklenir.
         current = kayit_tarihi
-        while current <= son_giris:
+        while current <= bugun:
             ay = current.month
             mevsim = "Ilkbahar" if ay in [3, 4, 5] else (
                 "Yaz" if ay in [6, 7, 8] else ("Sonbahar" if ay in [9, 10, 11] else "Kış"))
 
-            carpan = 3.5 if (mevsim == "Yaz" and ogrenci_mi) else (1.2 if mevsim == "Yaz" else 1.0)
-            gunluk_saat = np.random.normal(0.5 * carpan, 0.1)
-            mevsimsel_saatler[mevsim] += max(0, gunluk_saat)
+            # Oyuncu pasif olduğu günlerde oynamadı
+            if current > son_giris:
+                gunluk_saat = 0
+            else:
+                carpan = 3.5 if (mevsim == "Yaz" and ogrenci_mi) else (1.2 if mevsim == "Yaz" else 1.0)
+                gunluk_saat = max(0, np.random.normal(0.5 * carpan, 0.2))
+
+            mevsimsel_saatler[mevsim] += gunluk_saat
             current += timedelta(days=1)
 
-
-        #oyuncu seviyesi toplam oyun saatine bağlı olarak mantıklı şekilde hesaplanır.
         toplam_saat = sum(mevsimsel_saatler.values())
         seviye = max(1, min(100, int(np.sqrt(toplam_saat) * 2)))
         hesap_yasi = max(0.1, round(toplam_gun / 365.25, 1))
+
+        churn_olasiligi = 0.85 if girilmeyen_gun_sayisi > 21 else 0.10
+
+        # Çok fazla oynayan oyuncuların bağlılığı daha yüksektir
+        if toplam_saat > 150 and girilmeyen_gun_sayisi <= 30:
+            churn_olasiligi -= 0.20
+
+       
+        churn_olasiligi = max(0.05, min(0.95, churn_olasiligi))
+        churn = 1 if np.random.random() < churn_olasiligi else 0
 
         #tüm bulunan veriler oyuncu verisi listesine eklenir ve dataframe yani tablo oluşturulur.
         oyuncu_verisi.append({
