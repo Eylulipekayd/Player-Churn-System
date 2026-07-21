@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+import joblib
 from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
@@ -29,7 +30,7 @@ def prepare_features(df):
     return X, y
 
 
-def train_and_evaluate(X, y, reports_dir):
+def train_and_evaluate(X, y, reports_dir, models_dir):
     """Modelleri eğitir, çapraz doğrulama yapar ve grafikleri kaydeder."""
     os.makedirs(reports_dir, exist_ok=True)
 
@@ -177,6 +178,13 @@ def train_and_evaluate(X, y, reports_dir):
     plt.close()
     print(f"✓ Özellik önem dereceleri grafiği kaydedildi: {feat_plot_path}")
 
+    # 8.MODELİN JOBLIB İLE KAYDEDİLMESİ
+    model_save_path = os.path.join(models_dir, "kaggle_rf_model.pkl")
+    joblib.dump(rf_model, model_save_path)
+    print(f"✓ Eğitilen Random Forest modeli kaydedildi: {model_save_path}")
+
+    return rf_model
+
 
 if __name__ == "__main__":
 
@@ -184,11 +192,12 @@ if __name__ == "__main__":
 
     data_path = os.path.join(base_dir, "data", "kaggle_pipeline.csv")
     reports_dir = os.path.join(base_dir, "reports", "Hafta_3", "train_results")
+    models_dir = os.path.join(base_dir, "saved_models")
 
     print("=== KAGGLE TRAİN PİPELİNE BAŞLATILDI ===")
 
     df = load_processed_data(data_path)
     X, y = prepare_features(df)
-    train_and_evaluate(X, y, reports_dir)
+    train_and_evaluate(X, y, reports_dir, models_dir)
 
     print("\n=== TÜM İŞLEMLER BAŞARIYLA TAMAMLANDI ===")

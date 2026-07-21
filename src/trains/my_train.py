@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+import joblib
 from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
@@ -29,7 +30,7 @@ def prepare_features(df):
     return X_my, Y_my
 
 
-def train_and_evaluate(X_my, Y_my, reports_dir):
+def train_and_evaluate(X_my, Y_my, reports_dir, models_dir):
     """Modelleri eğitir, çapraz doğrulama yapar ve grafikleri kaydeder."""
     os.makedirs(reports_dir, exist_ok=True)
 
@@ -182,6 +183,12 @@ def train_and_evaluate(X_my, Y_my, reports_dir):
     plt.close()
     print(f"✓ Özellik önem dereceleri grafiği kaydedildi: {feat_plot_path}")
 
+    # 8. MODELİN JOBLIB İLE KAYDEDİLMESİ
+    model_save_path = os.path.join(models_dir, "my_rf_model.pkl")
+    joblib.dump(rf_my, model_save_path)
+    print(f"✓ Eğitilen Random Forest modeli kaydedildi: {model_save_path}")
+
+    return rf_my
 
 if __name__ == "__main__":
     # trains klasörünün iki seviye yukarısındaki ana klasörü buluyoruz
@@ -189,11 +196,12 @@ if __name__ == "__main__":
 
     data_path = os.path.join(base_dir, "data", "my_pipeline.csv")
     reports_dir = os.path.join(base_dir, "reports", "Hafta_3", "train_results")
+    models_dir = os.path.join(base_dir, "saved_models")
 
     print("=== MY TRAİN PİPELİNE BAŞLATILDI ===")
 
     df_my = load_processed_data(data_path)
     X_my, Y_my = prepare_features(df_my)
-    train_and_evaluate(X_my, Y_my, reports_dir)
+    train_and_evaluate(X_my, Y_my, reports_dir, models_dir)
 
     print("\n=== TÜM İŞLEMLER BAŞARIYLA TAMAMLANDI ===")
