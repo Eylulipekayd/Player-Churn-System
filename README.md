@@ -1,100 +1,100 @@
-# Oyuncu Davranışı Analitiği ve Erken Terk (Churn) Tahmin Sistemi 
+# 🎮 Oyuncu Davranışı Analitiği ve Erken Terk (Churn) Tahmin Sistemi
 
-Bu proje, bir mobil oyunun oyuncu verilerini uçtan uca işleyerek, "bir oyuncunun yakın zamanda oyunu terk edip etmeyeceğini" (churn) tahmin eden çalışan bir makine öğrenmesi sistemi geliştirmeyi amaçlamaktadır.
+Bu proje, mobil oyun dünyasındaki oyuncu verilerini uçtan uca işleyerek bir oyuncunun yakın zamanda oyunu terk edip etmeyeceğini churn makine öğrenmesi modelleri ile tahmin eden ve sonuçları etkileşimli bir **Streamlit** panosunda sunan bir projedir.
 
-## Proje Dizin Yapısı
+---
 
-* `data/`: Projede kullanılan ham dosyalar ve üretilen temizlenmiş veri setleri (Kaggle/Sentetik).
-* `notebooks/`: EDA (Keşifsel Veri Analizi) ve churn tahmin modellemelerinin yapıldığı Jupyter not defterleri.
-* `src/`: Veri işleme ve sentetik veri üretimi için kullanılan Python scriptleri.
-* `reports/`: Haftalık analiz raporları.
-* `README.md`: Proje dokümantasyonu.
+## 📁 Proje Dizin Yapısı
 
-## Kurulum ve Çalıştırma
+```text
+├── .venv/                   # Sanal ortam klasörü
+├── data/                    # Ham ve pipeline'dan geçmiş temiz veriler (Kaggle & My)
+├── notebooks/               # Jupyter Not Defterleri
+│   ├── EDA/                 # EDA çalışmaları
+│   └── models/              # Model eğitimi, test denemeleri
+├── reports/                 # Haftalık analiz raporları ve çıktı görselleri
+│   ├── Hafta_1/
+│   ├── Hafta_2/
+│   └── Hafta_3/
+├── saved_models/            # Eğitilmiş ve paketlenmiş Random Forest modelleri (.pkl)
+├── src/                     # Modüler kaynak kodlar
+│   ├── datasets/            # Veri seti üretim scriptleri
+│   ├── pipeline/            # Özellik mühendisliği ve veri temizleme hatları
+│   ├── predictions/         # Model tahmin fonksiyonları ve çıkarım scriptleri
+│   └── trains/              # Model eğitim, çapraz doğrulama ve metrik kaydetme scriptleri
+├── tests/                   # Pytest ile veri kalitesi ve sınır durum testleri
+├── pano.py                  # Streamlit dashboard ana uygulama kodu
+├── requirements.txt         # Proje bağımlılıkları ve kütüphane versiyonları
+└── README.md                # Proje dokümantasyonu
+```
 
-### 1. Ortam Hazırlığı
-Proje bağımlılıklarını izole etmek için bir sanal ortam oluşturup aktif edin:
+---
 
-**Windows:**
+### 1. Ortamın Kurulması & Bağımlılıkların Yüklenmesi
+
+**Windows için:**
 ```bash
 python -m venv .venv
 .venv\Scripts\activate
+pip install -r requirements.txt
 ```
-**macOS/Linux:**
+
+**macOS / Linux için:**
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
-```
-### 2. Kütüphanelerin Yüklenmesi
-Gerekli paketleri requirements.txt üzerinden yükleyin:
-```bash
 pip install -r requirements.txt
 ```
-### 3. Veri Üretimi ve Hazırlığı
-Analiz süreçlerini başlatmadan önce verileri hazırlamak için src/ klasörü altındaki scriptleri sırasıyla çalıştırabilirsiniz:
 
-kaggle_dataset:
+---
+
+### 2. Veri Üretimi, Pipeline ve Test Aşaması
+
+Verilerin üretilmesi, pipelinedan geçirilmesi ve veri kalitesi testlerinin çalıştırılması:
+
 ```bash
+# Veri Setlerini Oluşturma (Hafta 1)
 python src/datasets/kaggle_dataset.py
-```
-my_dataset:
-```bash
 python src/datasets/my_dataset.py
-```
 
-## Hafta 2 Güncellemeleri: Data Pipeline & Test Altyapısı
-
-Projenin ikinci haftasında, analiz adımları modüler hale getirilmiş ve sistem `pytest` ile test edilmiştir.
-
-### 1. Yenilenen Klasör ve Dosya Yapısı
-Proje dizinine pipeline ve testler için yeni klasörler eklenmiştir:
-
-* `src/pipeline/`: Modüler veri işleme hatları.
-    * `kaggle_pipeline.py`: Kaggle veri seti için pipeline scripti.
-    * `my_pipeline.py`: Kendi ürettiğim veri seti için pipeline scripti.
-  
-* `tests/`: Kod kalitesini ve veri tutarlılığını denetleyen testler.
-    * `test_kaggle.py`: Kaggle pipeline için veri kalitesi kontrolü yapar.
-    * `test_my_dataset.py`: My pipeline için veri kalitesi kontrolü yapar.
-
-### 2. Pipeline Terminalden Çalıştırılması
-Ham verileri temizlemek ve modellemeye hazır yeni özellikleri türetmek için veri hatları terminalden tek komutla çalıştırılabilir:
-```bash
+# Pipeline & Özellik Mühendisliği (Hafta 2)
 python src/pipeline/kaggle_pipeline.py
-```
-```bash
 python src/pipeline/my_pipeline.py
-```
-### 3.Testlerin Terminalden Çalıştırılması
-Yazılan tüm veri kalitesi kontrollerini ve sınır durum testlerini çalıştırmak için terminale şu komut yazılır:
-```bash
+
+# Veri Kalitesi ve Sınır Durum Testleri (Pytest)
 pytest
 ```
-## Hafta 3 Güncellemeleri: Modelleme ve Train Altyapısı
 
-Projenin üçüncü haftasında, veri işleme hatlarından gelen temizlenmiş veriler kullanılarak makine öğrenmesi modelleri eğitilmiş, model kararlılıkları çapraz doğrulama ile test edilmiş ve kapsamlı performans raporları üretilmiştir.
+---
 
-### 1. Yenilenen Klasör ve Dosya Yapısı
-Modelleme süreçleri için projeye yeni notebooklar ve model eğitim scriptleri eklenmiştir:
+### 3. Model Eğitimi, Kod Temizliği ve Panonun Başlatılması
 
-* `notebooks/`
-    * `models.ipynb`: Modellerin deneysel olarak kurulduğu, eğitildiği ve analiz edildiği Jupyter not defteri.
+Modellerin eğitilmesi ve `.pkl` olarak kaydedilmesi, kodların PEP8 standartlarına göre denetlenmesi ve canlı Streamlit panosunun başlatılması:
 
-* `src/trains/`
-    * `kaggle_train.py`: Kaggle veri seti üzerinde modelleri eğitir.
-    * `my_train.py`: Kendi ürettiğim veri seti üzerinde modelleri eğitir.
-
-### 2. Model Eğitim Scriptlerinin Terminalden Çalıştırılması
-Hazırlanan modüler eğitim scriptlerini modelleri eğitmek, metrik tablolarını basmak ve performans grafiklerini otomatik olarak üretmek için terminalden şu komutlar çalıştırılır:
-
-Kaggle modellerini eğitmek ve değerlendirmek için:
 ```bash
+# Modelleri Eğitme & Raporlama (Hafta 3)
 python src/trains/kaggle_train.py
-```
-Kendi veri setimin modellerini eğitmek ve değerlendirmek için:
-```bash
 python src/trains/my_train.py
+
+# Tahmin Scriptlerini Çalıştırma
+python src/predictions/kaggle_prediction.py
+python src/predictions/my_prediction.py
+
+# Kod Kalitesi ve Denetim (Clean Code)
+black src/ pano.py
+flake8 --ignore=E501 src/ pano.py
+
+# Streamlit Panosunu Çalıştırma (Hafta 4)
+streamlit run pano.pypython src/predictions/my_prediction.py
 ```
-### 3. Model Çıktıları
-Eğitim scriptleri başarıyla çalıştıktan sonra elde edilen Precision, Recall, F1-Score, Accuracy ve Cross-Validation sonuçları otomatik olarak hesaplanır. 
-Sistem, üretilen görsel çıktıları doğrudan reports/ klasörü altına kaydedecek şekilde optimize edilmiştir.
+
+---
+
+## 📊 Streamlit Panosu (Pano Özellikleri)
+
+Tarayıcıda açılan panoda 4 ana sekme yer almaktadır:
+
+1. **📊 Genel Bakış
+2. **⚠️ Risk Altındaki Oyuncular
+3. **📈 Model Metrikleri
+4. **📊 Grafik
