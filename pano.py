@@ -16,33 +16,36 @@ st.markdown(
         padding-bottom: 2rem !important;
     }
     .summary-card {
-        background-color: rgba(150, 150, 150, 0.08);
+        background-color: var(--background-secondary-color, rgba(150, 150, 150, 0.15));
         padding: 20px;
         border-radius: 10px;
         border-left: 4px solid #3498db;
+        color: var(--text-color);
     }
     .metric-card {
-        background-color: rgba(150, 150, 150, 0.06);
+        background-color: var(--background-secondary-color, rgba(150, 150, 150, 0.12));
         padding: 15px;
         border-radius: 8px;
         text-align: center;
-        border: 1px solid rgba(150, 150, 150, 0.15);
+        border: 1px solid rgba(150, 150, 150, 0.25);
     }
     .metric-title {
         font-size: 14px;
-        color: #a0a0a0;
+        opacity: 0.75;
+        color: var(--text-color);
+        font-weight: 500;
         margin-bottom: 5px;
     }
     .metric-value {
         font-size: 22px;
         font-weight: bold;
-        color: #ffffff;
+        color: var(--text-color);
     }
     .feature-card {
-        background-color: rgba(150, 150, 150, 0.05);
+        background-color: var(--background-secondary-color, rgba(150, 150, 150, 0.12));
         padding: 12px 16px;
         border-radius: 8px;
-        border: 1px solid rgba(150, 150, 150, 0.15);
+        border: 1px solid rgba(150, 150, 150, 0.2);
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -50,7 +53,7 @@ st.markdown(
     }
     .feature-name {
         font-size: 15px;
-        color: #e0e0e0;
+        color: var(--text-color);
         font-weight: 500;
     }
     .feature-val {
